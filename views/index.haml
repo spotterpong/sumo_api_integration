@@ -1,1 +1,30 @@
-%H1 THIS SHOULD FINALLY WORK
+%h1.center= @title
+
+.containner
+	.row
+		%form.form-inline#-form{ :action =>'#', :method => "get", :enctype => "multipart/form-data" }
+			.form-group
+				%label{:for => 'dist_id'} Distribution ID
+				%input.form-control#dist_id{:type => 'text', :placeholder => 'EMD_....'}
+			.form-group
+				%label{:for => 'start_datetime'} Start Date/Time:
+				%input.form-control#start_datetime{:type => 'datetime-local'}
+			.form-group
+				%label{:for => 'end_datetime'} End Date/Time:
+				%input.form-control#end_datetime{:type => 'datetime-local'}
+				/ .col-md-2
+				/ 	.form-group
+				/ 		%label Range Selector
+				/		%input.form-control#range_selecter{:type =>'text'}
+				/ Need to add this in later
+			%input.form-control.btn.btn-mc.btn-primary#bounceback-search{:type => 'submit', :remote => 'true'}
+
+
+	.row
+		%results#results_table
+			%tr
+				%th Message
+
+
+
+			
