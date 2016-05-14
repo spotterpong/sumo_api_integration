@@ -1,41 +1,50 @@
 
 
 $(document).ready(function(){
+	//Hide table headers until results are gathered. 
+	$('#results-table').hide();
+
+
+
 	$('#bounceback-search').click(function(e,o){
 		//Prevent submit action
 		e.preventDefault();
-		$('#bounceback-search').attr('disabled', true)
+		
+
 		//capture all variables from text boxes
 		var dist_id = $('#dist_id').val();
 		var start_date = $('#start_datetime').val() + ':00';
 		//start_date = date_time_splitter(start_date);
 		var end_date = $('#end_datetime').val() + ':00';
 		//end_date = date_time_splitter(end_date);
-		console.log(dist_id);
-		console.log(start_date);
-		console.log(end_date);
+
+
 		var url = "http://127.0.0.1:9393/bounceback/"+ dist_id + "/" + start_date + "/" + end_date
 		$.ajax({
 			type: "GET",
 			url: url, 
-			success: function(results){
-				function drawTable(results) {
-				    for (var i = 0; i < results.length; i++) {
-				        drawRow(results[i]);
-				    }
-				}
+			beforeSend: function(){
+				$('#bounce_back_table_loader').show();
+				$('#bounceback-search').attr('disabled', true);
+				$('#results_table').empty();
+				
 
-				function drawRow(rowData) {
-				    var row = $("<tr />")
-				    $("#results_table").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-				    row.append($("<td>" + rowData.id + "</td>"));
-				    row.append($("<td>" + rowData.firstName + "</td>"));
-				    row.append($("<td>" + rowData.lastName + "</td>"));
-				}
-				$('#bounceback-search').attr('disabled', false)
+			},
+			success: function(results){
+				$('#results_table').show();
+				results = JSON.parse(results);
+				$('#results_table').append('<tr><th>#</th><th>Message</th></tr>')
+				drawTable(results.messages);
+				
 			},
 			error: function(results){
-				alert('Something went wrong');
+				console.log(results);
+				alert('Something went wrong with returned status of: ' + results.status 
+					+ '\n Check if you are on the right network or connected to VPN' 
+					+ '\n Make sure your search criteria is correcct');
+			},
+			complete: function(){
+				$('#bounce_back_table_loader').hide();
 				$('#bounceback-search').attr('disabled', false)
 			}
 
@@ -44,6 +53,19 @@ $(document).ready(function(){
 		
 	});
 });
+
+function drawTable(results) {
+    for (var i = 0; i < results.length; i++) {
+        drawRow(results[i], i);
+    }
+}
+
+function drawRow(rowData, index) {
+    var row = $("<tr />")
+    $("#results_table").append(row); 
+    row.append($("<td>" + index + "</td>"));
+    row.append($("<td>" + rowData + "</td>"));
+}
 
 
 // function date_time_splitter(date_time){

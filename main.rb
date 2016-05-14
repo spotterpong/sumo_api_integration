@@ -14,9 +14,8 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 	# Load in credentials
 	Dotenv.load
-	email = ["SUMMOLOGIC_EMAIL"]
-	password = ["SUMOLOGIC_PASSWORD"]
-
+	email = ""
+	password = ""
 	# Initialize Faraday session
 	headers = {'Content-Type' => 'application/json', 'Accept' => 'application/json'}
 	session = Faraday.new(url: 'https://api.sumologic.com/api/v1', headers: headers) do |connection|
@@ -43,8 +42,8 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 	# Grab the interesting information from each item returned
 	puts "Parsing response..."
-	if r.body
-		puts r.body
+	if r.body.length > 0
+		message_json_array = Array.new
 		r.body.each do |i|
 		  raw_message = JSON.parse(i["_raw"])
 
@@ -53,22 +52,21 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 		  unless log_level.nil?
 		    if log_level.downcase == "info" && fields["method"].downcase == "logbouncedemail"
-		      message_json = '{' + raw_message["message"].split('{')[1]
-		      message_json = message_json.split('}')[0] + '}'
-		      message_json_2 = JSON.parse(message_json)
-
-		      puts "\n\n"
-		      puts message_json_2["Diagnostic-Code"].gsub('x-postfix; ', '')
-		      puts "\n\n"
-
-		      puts "\tDone!"
-		      return message_json_2
+		      # message_json = '{' + raw_message["message"].split('{')[0]
+		      # message_json = message_json.split('}')[0] + '}'
+		      message_json = raw_message["message"]
+		      message_json_array.push(message_json)
 		    end
 		  end
 		end
-	else
-		puts 'no results'
-		puts "\tDone!"
+		message_json_json = {}
+		message_json_json[:messages] = message_json_array
+		message_json_json = JSON.generate(message_json_json)
+		return message_json_json
+	elsif r.body.length == 0
+		status = "Nothing found - API gave a return of #{r.status}"
+		puts status
+		return status
 	end
 
 end

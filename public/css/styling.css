@@ -1,3 +1,21 @@
 .center {
 	text-align: center;
 }
+
+
+
+th {
+	text-align: center;
+}
+
+td {
+	margin-right: 30px;
+}
+
+.display-hidden {
+	display:none;
+}
+
+#bounce_back_table_loader {
+	margin-top: 60px;
+}
