@@ -19,7 +19,7 @@ $(document).ready(function(){
 		//end_date = date_time_splitter(end_date);
 
 
-		var url = "http://127.0.0.1:9393/bounceback/"+ dist_id + "/" + start_date + "/" + end_date
+		var url = extract_base_url() + "/bounceback/"+ dist_id + "/" + start_date + "/" + end_date
 		$.ajax({
 			type: "GET",
 			url: url, 
@@ -58,14 +58,22 @@ function drawTable(results) {
     for (var i = 0; i < results.length; i++) {
         drawRow(results[i], i);
     }
-}
+};
 
 function drawRow(rowData, index) {
     var row = $("<tr />")
     $("#results_table").append(row); 
     row.append($("<td>" + index + "</td>"));
     row.append($("<td>" + rowData + "</td>"));
-}
+};
+
+function extract_base_url(){
+	pathArray = location.href.split( '/' );
+	protocol = pathArray[0];
+	host = pathArray[2];
+	url = protocol + '//' + host;
+	return url
+};
 
 
 // function date_time_splitter(date_time){

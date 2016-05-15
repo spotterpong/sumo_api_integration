@@ -14,8 +14,8 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 	# Load in credentials
 	Dotenv.load
-	email = ""
-	password = ""
+	email = ENV["SUMOLOGIC_EMAIL"]
+	password = ENV["SUMOLOGIC_PASSWORD"]
 	# Initialize Faraday session
 	headers = {'Content-Type' => 'application/json', 'Accept' => 'application/json'}
 	session = Faraday.new(url: 'https://api.sumologic.com/api/v1', headers: headers) do |connection|
