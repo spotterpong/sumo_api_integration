@@ -15,11 +15,9 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 	# Load in credentials
 	Dotenv.load
-	# email = ENV['SUMOLOGIC_EMAIL']
-	email = "resolution@qualtrics.com"
+	email = ENV['SUMOLOGIC_EMAIL']
 	puts email
-	password = "Qu97altrics!"
-	# password = ENV['SUMOLOGIC_PASSWORD']
+	password = ENV['SUMOLOGIC_PASSWORD']
 	puts password
 	# Initialize Faraday session
 	headers = {'Content-Type' => 'application/json', 'Accept' => 'application/json'}
@@ -46,7 +44,8 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 	# Grab the interesting information from each item returned
 	puts "Parsing response..."
-	if r.body
+	if r.status == 200
+		puts r.body
 		if r.body.length > 0
 			message_json_array = Array.new
 			r.body.each do |i|
