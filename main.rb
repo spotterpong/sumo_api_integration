@@ -10,12 +10,12 @@ require 'multi_json'
 before do
   headers "Content-Type" => "text/html; charset=utf-8"
 end
+
 def boucneBackCall(dist_id, startdate, enddate)
 
 	# Load in credentials
 	Dotenv.load
 	email = ENV['SUMOLOGIC_EMAIL']
-	puts email
 	password = ENV['SUMOLOGIC_PASSWORD']
 	# Initialize Faraday session
 	headers = {'Content-Type' => 'application/json', 'Accept' => 'application/json'}

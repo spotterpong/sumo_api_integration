@@ -32,9 +32,14 @@ $(document).ready(function(){
 			},
 			success: function(results){
 				$('#results_table').show();
-				results = JSON.parse(results);
-				$('#results_table').append('<tr><th>#</th><th>Message</th></tr>')
-				drawTable(results.messages);
+				if (results) {
+					results = JSON.parse(results);
+					$('#results_table').append('<tr><th>#</th><th>Message</th></tr>')
+					drawTable(results.messages);
+				}
+				else {
+					alert('No data returned');
+				}
 				
 			},
 			error: function(results){
