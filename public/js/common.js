@@ -81,14 +81,3 @@ function extract_base_url(){
 };
 
 
-// function date_time_splitter(date_time){
-// 	//Comes through in form YYYY-MM-DDT00:00
-// 	var split = date_time.split('T');
-// 	var date = split[0];
-// 	var time = split[1];
-// 	//comes through in form YYYY-MM-DD
-// 	var split_date = date.split('-');
-// 	//convert to MM-DD-YYYY
-// 	var new_date = split_date[1] + split_date[2] + split_date[0]
-// 	return new_date + ' ' + time
-// };
