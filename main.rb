@@ -15,9 +15,11 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 	# Load in credentials
 	Dotenv.load
-	email = ENV['SUMOLOGIC_EMAIL']
+	# email = ENV['SUMOLOGIC_EMAIL']
+	email = "resolution@qualtrics.com"
 	puts email
-	password = ENV['SUMOLOGIC_PASSWORD']
+	password = "Qu97altrics!"
+	# password = ENV['SUMOLOGIC_PASSWORD']
 	puts password
 	# Initialize Faraday session
 	headers = {'Content-Type' => 'application/json', 'Accept' => 'application/json'}
