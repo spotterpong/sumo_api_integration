@@ -14,8 +14,9 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 	# Load in credentials
 	Dotenv.load
-	email = ENV["SUMOLOGIC_EMAIL"]
-	password = ENV["SUMOLOGIC_PASSWORD"]
+	email = ENV['SUMOLOGIC_EMAIL']
+	puts email
+	password = ENV['SUMOLOGIC_PASSWORD']
 	# Initialize Faraday session
 	headers = {'Content-Type' => 'application/json', 'Accept' => 'application/json'}
 	session = Faraday.new(url: 'https://api.sumologic.com/api/v1', headers: headers) do |connection|
@@ -42,7 +43,7 @@ def boucneBackCall(dist_id, startdate, enddate)
 
 	# Grab the interesting information from each item returned
 	puts "Parsing response..."
-	if r.body.length > 0
+	if r.body.length > 0 && r.status == 200
 		message_json_array = Array.new
 		r.body.each do |i|
 		  raw_message = JSON.parse(i["_raw"])
